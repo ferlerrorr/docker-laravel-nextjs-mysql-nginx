@@ -83,7 +83,7 @@ services:
       NEXT_PUBLIC_API_HOST: ${NEXT_PUBLIC_API_HOST}
     volumes:
       # - ./src/ui:/var/www/ui apply this if your not using src directory
-      - ./src/ui:/var/www/ui/src/app
+      - ./src/ui:/var/www/ui
       - /var/www/ui/node_modules
       - /var/www/ui/.next
     restart: unless-stopped
