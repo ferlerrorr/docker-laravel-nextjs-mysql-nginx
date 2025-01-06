@@ -1,0 +1,43 @@
+# Use official PHP image with FPM and Alpine Linux for lightweight performance
+FROM php:8.1-fpm-alpine
+
+# Install necessary libraries and PHP extensions
+RUN apk add --no-cache \
+    libjpeg-turbo-dev \   
+    libpng-dev \         
+    libwebp-dev \         
+    freetype-dev \       
+    libzip-dev \          
+    zip                  
+# libjpeg-turbo-dev JPEG image support
+# libpng-dev PNG image support
+# libwebp-dev WebP image support
+# freetype-dev Font handling
+# libzip-devZIP archive support
+# zip Required for managing compressed files
+
+
+
+# Configure GD with JPEG, WebP, and FreeType support
+RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype
+
+# Install required PHP extensions: PDO, PDO MySQL, GD, and ZIP
+RUN docker-php-ext-install pdo pdo_mysql gd zip
+
+# Install Composer: Dependency manager for PHP
+RUN curl -sS https://getcomposer.org/installer | php -- \
+    --install-dir=/usr/local/bin --filename=composer
+
+# Alternatively, copy Composer binary from its official image
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Set the working directory for the Laravel application
+WORKDIR /var/www/api
+
+# Copy the application source code and environment configuration
+COPY ./src/api .
+COPY ./src/api/.env.example ./.env
+
+# Install Laravel dependencies and set up the application key
+RUN composer install
+RUN php artisan key:generate

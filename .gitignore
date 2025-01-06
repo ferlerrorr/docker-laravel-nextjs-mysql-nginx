@@ -1,0 +1,9 @@
+.DS_Store
+.env
+mysql
+vendor
+node_modules
+
+!src
+!api
+!ui

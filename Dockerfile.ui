@@ -1,0 +1,27 @@
+# Use official Node.js image as the base image with version 18 and Alpine Linux for a lightweight environment
+FROM node:18-alpine
+
+# Set the working directory inside the container
+# This is where all application files will be located within the container
+WORKDIR /var/www/ui
+
+# Copy only the dependency files first to take advantage of Docker's caching mechanism
+# Changes in application code won't invalidate the cached `npm install` step
+COPY ./src/ui/package.json ./ 
+COPY ./src/ui/package-lock.json ./
+
+# Install application dependencies using npm (default in the Node.js image)
+# This step ensures all required libraries are installed
+RUN npm install
+
+# Copy the rest of the application source code into the container
+# Includes the Next.js components, pages, and other assets
+COPY ./src/ui ./
+
+# Expose the port used by the application
+# 3000 is the default port for Next.js development server
+EXPOSE 3000
+
+# Set the default command to run the development server when the container starts
+# `npm run dev` starts the Next.js development server
+CMD ["npm", "run", "dev"]
