@@ -47,7 +47,7 @@ The project uses Docker to set up its environment. Below are the services and th
 | **Database**   | MySQL database for data handling   | 3306  |
 | **phpMyAdmin** | Database management interface     | 8080  |
 | **API (Laravel 10)**        | Backend logic interactions        | 8000  |
-| **UI (NextJS + React)**         | Frontend of the application       | 3000  |
+| **UI (NextJS / React)**         | Frontend of the application       | 3000  |
 
 ---
 
